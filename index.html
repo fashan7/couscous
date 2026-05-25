@@ -91,6 +91,117 @@
         .price-label { width: 140px; font-size: 0.8rem; color: #7A8BAA; text-align: right; flex-shrink: 0; }
         .price-value { font-size: 0.8rem; color: #F0C96A; flex-shrink: 0; min-width: 60px; }
 
+
+        /* ═══════════════════════════════════════
+           MOBILE RESPONSIVE — all breakpoints
+           ═══════════════════════════════════════ */
+        @media (max-width: 768px) {
+            body { overflow: hidden; }
+            .slide > .content { padding: 1rem 0.9rem 4.5rem; }
+
+            /* Nav — compact dots */
+            .nav-controls { padding: 8px 14px; gap: 10px; bottom: 14px; max-width: 92vw; }
+            .nav-btn { width: 32px; height: 32px; font-size: 1rem; }
+            .slide-dots .dot { width: 6px; height: 6px; }
+            .slide-counter { font-size: 0.7rem; min-width: 30px; }
+
+            /* Hide excess dots on very small screens — show max 10 */
+            .slide-dots .dot:nth-child(n+11) { display: none; }
+
+            /* Section label */
+            .section-label { font-size: 0.6rem; }
+
+            /* Bullet list */
+            .bullet-list li { font-size: 0.78rem; line-height: 1.5; }
+
+            /* ALL multi-col grids → single column */
+            [style*="grid-template-columns: repeat(4"], 
+            [style*="grid-template-columns: repeat(3"],
+            [style*="grid-template-columns: repeat(5"],
+            [style*="grid-template-columns: 1fr 1fr"],
+            [style*="grid-template-columns:1fr 1fr"],
+            [style*="grid-template-columns: 1fr 1fr 1fr"] { 
+                grid-template-columns: 1fr !important; 
+            }
+
+            /* Table rows keep 3 cols but shrink */
+            [style*="grid-template-columns: 2.5fr 1fr 1fr"],
+            [style*="grid-template-columns: 2fr 1fr 1.2fr"],
+            [style*="grid-template-columns: 2.2fr 1fr 0.7fr"] {
+                grid-template-columns: 1.8fr 0.9fr 0.9fr !important;
+                gap: 0.25rem !important;
+            }
+
+            /* Price bar labels */
+            .price-label { width: 80px; font-size: 0.7rem; }
+            .price-value { font-size: 0.7rem; min-width: 50px; }
+
+            /* Slide 1 cover meta cards: 2 cols */
+            .slide-1 [style*="grid-template-columns:repeat(4,1fr)"] { 
+                grid-template-columns: 1fr 1fr !important; 
+            }
+
+            /* Smaller heading sizes on mobile */
+            h1, h2 { font-size: clamp(1.3rem, 5vw, 2rem) !important; }
+
+            /* Reduce emoji hero size */
+            .slide-1 [style*="font-size:90px"] { font-size: 52px !important; margin-bottom: 0.6rem !important; }
+            .slide-19 [style*="font-size:80px"] { font-size: 48px !important; }
+
+            /* Smaller stat glows */
+            [class*="stat-glow"] { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+
+            /* Recommendation location 4-cols → 2 cols */
+            [style*="grid-template-columns:repeat(4,1fr)"] { 
+                grid-template-columns: 1fr 1fr !important; 
+            }
+
+            /* Timeline: reduce left padding */
+            [style*="padding-left:1.8rem"] { padding-left: 1.4rem !important; }
+
+            /* Ask page 5 cols → 2+3 wrapping */
+            .slide-10 [style*="grid-template-columns:repeat(5,1fr)"],
+            .slide-10 [style*="repeat(5,1fr)"] { 
+                grid-template-columns: 1fr 1fr !important; 
+            }
+
+            /* Closing card inline-flex → block */
+            .slide-19 [style*="display:inline-flex"] { 
+                display: flex !important; 
+                width: 90% !important;
+                margin: 0 auto !important;
+            }
+
+            /* Reduce gap on all grids */
+            [style*="gap:1.2rem"] { gap: 0.65rem !important; }
+            [style*="gap:1rem"] { gap: 0.5rem !important; }
+            [style*="gap:0.8rem"] { gap: 0.45rem !important; }
+            [style*="gap:1.5rem"] { gap: 0.65rem !important; }
+
+            /* font sizes in table rows */
+            [style*="font-size:0.8rem"] { font-size: 0.72rem !important; }
+            [style*="font-size:0.83rem"] { font-size: 0.75rem !important; }
+            [style*="font-size:0.85rem"] { font-size: 0.78rem !important; }
+
+            /* Slide overflow — allow internal scroll when content is tall */
+            .slide.active > .content { 
+                overflow-y: auto;
+                max-height: calc(100vh - 60px);
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide > .content { padding: 0.8rem 0.7rem 4.5rem; }
+            .nav-controls { padding: 6px 10px; gap: 7px; }
+            .nav-btn { width: 28px; height: 28px; font-size: 0.9rem; }
+            .slide-dots .dot:nth-child(n+8) { display: none; }
+            [style*="font-size:0.8rem"] { font-size: 0.68rem !important; }
+            [style*="padding:1rem 1.1rem"] { padding: 0.65rem 0.7rem !important; }
+            [style*="padding:1rem 1.2rem"] { padding: 0.65rem 0.7rem !important; }
+            [style*="padding:1rem"] { padding: 0.6rem !important; }
+        }
+
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } }
     </style>
 </head>
