@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Project Couscous SL — Full Investor Deck</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #0B1E3F;
+            --color-bg-deep: #060F20;
+            --color-surface: #132952;
+            --color-text: #F5F3EE;
+            --color-text-secondary: #B8C8E0;
+            --color-text-muted: #7A8BAA;
+            --color-accent-1: #F0C96A;
+            --color-accent-2: #C9952A;
+            --color-accent-3: #3D6FA8;
+            --color-glass-bg: rgba(255,255,255,0.05);
+            --color-glass-border: rgba(255,255,255,0.09);
+            --color-vignette: rgba(0,0,0,0.45);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+    </style>
+
+    <style>
+        :root { --color-bg: #0B1E3F; --color-text: #F5F3EE; --glow-color-rgb: 240,201,106; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.5rem, 4vw, 4rem); }
+        .nav-controls { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; z-index: 100; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); padding: 10px 24px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.09); }
+        .nav-btn { width: 40px; height: 40px; border: none; background: rgba(255,255,255,0.05); color: #F0C96A; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.1); }
+        .slide-dots { display: flex; gap: 8px; }
+        .slide-dots .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slide-dots .dot.active { background: #F0C96A; transform: scale(1.3); }
+        .slide-counter { font-size: 0.8rem; color: #7A8BAA; min-width: 40px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(20px); }
+
+        /* Section divider label */
+        .section-label { display: inline-block; background: rgba(240,201,106,0.12); border: 1px solid rgba(240,201,106,0.25); color: #F0C96A; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 20px; margin-bottom: 0.75rem; }
+
+        /* Glow */
+        .text-glow { text-shadow: 0 0 20px rgba(240,201,106,0.5), 0 0 40px rgba(240,201,106,0.2); }
+        .stat-glow { text-shadow: 0 0 30px rgba(240,201,106,0.6), 0 0 60px rgba(240,201,106,0.25); }
+        @keyframes glow-pulse { 0%,100%{text-shadow:0 0 20px rgba(240,201,106,.5),0 0 40px rgba(240,201,106,.2);}50%{text-shadow:0 0 30px rgba(240,201,106,.8),0 0 60px rgba(240,201,106,.3);} }
+        .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+
+        /* Gradient mesh */
+        @keyframes float-slow { 0%{transform:translate(0,0) scale(1);}25%{transform:translate(60px,-50px) scale(1.12);}50%{transform:translate(-40px,40px) scale(0.9);}75%{transform:translate(50px,20px) scale(1.08);}100%{transform:translate(0,0) scale(1);} }
+        @keyframes float-drift { 0%{transform:translate(0,0) scale(1) rotate(0deg);}33%{transform:translate(-50px,-60px) scale(1.15) rotate(3deg);}66%{transform:translate(40px,30px) scale(0.88) rotate(-2deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);} }
+        @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); animation: float-slow 10s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 14s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 18s ease-in-out infinite reverse; }
+
+        /* Vignette + noise */
+        .slide::before { content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px;opacity:0.03;mix-blend-mode:overlay; }
+        .slide::after { content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,var(--color-vignette) 100%); }
+
+        /* Bar chart */
+        .bar-chart { display:flex;align-items:flex-end;gap:clamp(.4rem,1vw,.75rem);height:clamp(120px,20vh,200px); }
+        .bar-col { display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1; }
+        .bar { border-radius:6px 6px 0 0;width:100%; }
+        .donut-ring { stroke-dasharray:251.3;stroke-dashoffset:251.3;stroke-linecap:round; }
+
+        /* Accent left-border bullets */
+        .bullet-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+        .bullet-list li { display: flex; align-items: flex-start; gap: 0.7rem; font-size: clamp(0.82rem, 1.1vw, 0.95rem); color: #B8C8E0; line-height: 1.55; }
+        .bullet-list li::before { content: "▸"; color: #C9952A; flex-shrink: 0; margin-top: 0.05em; }
+
+        /* Horizontal bar fill */
+        .bar-track { background: rgba(255,255,255,0.07); border-radius: 6px; height: 26px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg,#F0C96A,#C9952A); width: 0%; transition: width 0.7s ease; }
+
+        /* Price comparison bars */
+        .price-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+        .price-label { width: 140px; font-size: 0.8rem; color: #7A8BAA; text-align: right; flex-shrink: 0; }
+        .price-value { font-size: 0.8rem; color: #F0C96A; flex-shrink: 0; min-width: 60px; }
+
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } }
+    </style>
+</head>
+<body>
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-1 active" data-slide="1">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-120px;right:-100px;background:#F0C96A;opacity:0.13;"></div>
+        <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#3D6FA8;opacity:0.12;"></div>
+        <div class="blob" style="width:220px;height:220px;top:40%;left:12%;background:#C9952A;opacity:0.09;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content text-center">
+        <div style="font-size:90px;margin-bottom:1.2rem;animation:float 3.5s ease-in-out infinite;" class="reveal">🌾</div>
+        <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:900;background:linear-gradient(135deg,#F0C96A,#fff,#F0C96A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.02em;margin-bottom:0.5rem;" class="reveal">Project Couscous</h1>
+        <div style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2.2rem);color:#F0C96A;font-weight:700;margin-bottom:1.2rem;" class="reveal">Sri Lanka</div>
+        <p style="font-size:clamp(0.85rem,1.3vw,1.1rem);color:#B8C8E0;letter-spacing:0.05em;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto;" class="reveal">Sri Lanka's first domestic couscous manufacturer — capturing the South Asian and Indian Ocean hospitality markets.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:700px;margin:0 auto;" class="reveal">
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.7rem;">
+                <div style="font-size:0.65rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Founder</div>
+                <div style="font-size:0.82rem;color:#F5F3EE;font-weight:600;">Mohammed Fashan</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.7rem;">
+                <div style="font-size:0.65rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Markets</div>
+                <div style="font-size:0.82rem;color:#F5F3EE;font-weight:600;">SL → Maldives → South Asia</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.7rem;">
+                <div style="font-size:0.65rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Sector</div>
+                <div style="font-size:0.82rem;color:#F5F3EE;font-weight:600;">Manufacturing · FMCG</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.7rem;">
+                <div style="font-size:0.65rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Ask</div>
+                <div style="font-size:0.82rem;color:#F0C96A;font-weight:700;">LKR 45M – 70M</div>
+            </div>
+        </div>
+        <div style="margin-top:1.5rem;font-size:0.75rem;color:#7A8BAA;" class="reveal">INVESTOR DECK · CONFIDENTIAL · 2026</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-2" data-slide="2">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:360px;height:360px;top:-80px;right:-60px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-40px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">The Problem</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">Import Reliance & The Consumer Trust Crisis</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">South Asia pays European prices for a grain it cannot grow — and its consumers no longer trust the staple they've eaten for generations.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <div style="grid-column:1/-1;">
+                <ul class="bullet-list">
+                    <li>100% of couscous consumed in Sri Lanka and the Maldives is imported from Europe. Branded products like San Remo retail at ~LKR 3,000/kg — structurally excluding mid-market consumers and compressing hospitality margins.</li>
+                    <li>A high-profile food safety scandal involving artificially coloured and over-polished rice has fundamentally eroded consumer confidence in Sri Lanka's core daily staple. Millions of households are actively seeking a clean, traceable alternative grain.</li>
+                    <li>The Maldives resort sector imports 100% of its food supply at premium logistics costs. Our Sri Lanka location offers a 420km sea route — a fraction of European supplier freight distance — translating directly into lower landed cost for resort procurement.</li>
+                    <li>No domestic production infrastructure exists across the entire South Asian region. This is not competitive entry — it is category creation.</li>
+                </ul>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;" class="reveal">
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;color:#F0C96A;" class="stat-glow">LKR 3,000</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">per kg — San Remo retail</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;font-style:italic;">vs. our projected LKR 800–1,200/kg</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;color:#F0C96A;" class="stat-glow">100%</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">of couscous imported</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;font-style:italic;">Zero domestic production in South Asia</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;color:#F0C96A;" class="stat-glow">420km</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">SL → Maldives sea route</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;font-style:italic;">vs. thousands of km from Europe</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">02 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 3 — THE SOLUTION
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-3" data-slide="3">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">The Solution</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">First Domestic Automated Production Line</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">Build the only automated couscous manufacturing facility in South Asia — import grain in bulk, add value locally, and sell at a price no imported brand can match.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <ul class="bullet-list">
+                <li>We procure extrusion and drying machinery directly from Chinese manufacturers — the same technology base powering European production — at a fraction of European capital cost. The process is commercially proven.</li>
+                <li>Structural arbitrage: importing bulk semolina (lower tariff) and processing it domestically grants local value-add status under Sri Lanka's duty framework — a legal, permanent, defensible cost advantage baked into regulation.</li>
+            </ul>
+            <ul class="bullet-list">
+                <li>The facility is phased: starting with the Maldives B2B market and Colombo premium retail, then expanding as contracts are secured. Capital follows signed agreements, not projections.</li>
+                <li>Operationally simple — semolina, water, extrusion, controlled drying. No cold chain dependency, 18–24 month shelf life, sub-2% wastage. Focused, high-margin grain processing.</li>
+            </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;" class="reveal">
+            <div style="border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.9rem;text-align:center;">
+                <div style="font-size:1.6rem;margin-bottom:0.4rem;">📦</div>
+                <div style="font-size:0.85rem;font-weight:700;color:#F0C96A;">Import Bulk Semolina</div>
+                <div style="font-size:0.75rem;color:#7A8BAA;">Lower raw-material tariff rate</div>
+            </div>
+            <div style="border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.9rem;text-align:center;">
+                <div style="font-size:1.6rem;margin-bottom:0.4rem;">⚙️</div>
+                <div style="font-size:0.85rem;font-weight:700;color:#F0C96A;">Local Extrusion & Drying</div>
+                <div style="font-size:0.75rem;color:#7A8BAA;">Chinese machinery, proven process</div>
+            </div>
+            <div style="border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.9rem;text-align:center;">
+                <div style="font-size:1.6rem;margin-bottom:0.4rem;">🏷️</div>
+                <div style="font-size:0.85rem;font-weight:700;color:#F0C96A;">Local Value-Add Status</div>
+                <div style="font-size:0.75rem;color:#7A8BAA;">Bypass finished-goods import duty</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">03 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 4 — PRODUCT & VALUE PROPOSITION
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-4" data-slide="4">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">Product</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">The Clean, Fast Grain</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">100% pure durum wheat, zero additives, ready in 5 minutes. Built for the health-conscious consumer who has run out of reasons to trust their plate.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <ul class="bullet-list">
+                <li>Pure durum wheat semolina, no artificial colouring, zero undisclosed additives. In a market where the rice supply chain has been publicly compromised, clean label is not a premium feature — it is a baseline requirement we meet from day one.</li>
+                <li>Five-minute steam cooking makes couscous the fastest complete grain meal in the Sri Lankan market — directly addressing the urbanised, time-constrained household and the fitness community.</li>
+            </ul>
+            <ul class="bullet-list">
+                <li>Brand architecture built for trust: simple packaging, full ingredient transparency, and a clear origin story. Locally made, internationally sourced grain — 40–60% below comparable imported brands at retail.</li>
+                <li>Naturally high-protein, low-GI carbohydrate profile positions the product across health food, meal-prep staple, and everyday grain alternative — broadening shelf placement and basket penetration.</li>
+            </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1.1rem;" class="reveal">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:0.3rem;">🛒</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Health-Conscious Retail</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:0.3rem;">🏋️</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Gym Chains & Meal Prep</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:0.3rem;">🏨</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Resort Buffets & Hotels</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:0.3rem;">👨‍🍳</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Commercial Kitchens</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">04 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 5 — MARKET OPPORTUNITY
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-5" data-slide="5">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#3D6FA8;opacity:0.09;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#F0C96A;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">Market Opportunity</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">Maldives B2B Anchor & Regional Scale</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">We are not entering a market — we are building one. The immediate addressable revenue sits 420km off our coastline.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <ul class="bullet-list">
+                <li>The Maldives hosts 170+ luxury resort properties serving 1.8M+ international tourists annually, importing virtually every food input. Our 420km sea route delivers faster replenishment at materially lower freight cost than any European competitor.</li>
+                <li>Sri Lanka's premium grocery segment (Keells, Cargills, Arpico) serves an urban middle class spending LKR 18,000–35,000/household/month on food. Even 1% penetration generates meaningful initial domestic revenue.</li>
+            </ul>
+            <ul class="bullet-list">
+                <li>Conservative Phase 1 model: 500 MT annual production capacity at blended LKR 800/kg across B2B and retail yields LKR 400M top-line — requiring less than 0.1% combined market penetration before any export scale-up.</li>
+                <li>Broader TAM: Indian Ocean island economies (Seychelles, Mauritius, Réunion) and GCC South Asian expatriate consumer base — all high-import-cost markets with established couscous consumption and no regional supplier.</li>
+            </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;" class="reveal">
+            <div style="background:rgba(61,111,168,0.15);border:1px solid rgba(61,111,168,0.3);border-radius:10px;padding:1rem;">
+                <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#7A8BAA;margin-bottom:0.3rem;">TAM — Immediate</div>
+                <div style="font-size:1rem;font-weight:700;color:#F0C96A;">Sri Lanka + Maldives</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">Resort B2B + Premium Retail</div>
+            </div>
+            <div style="background:rgba(61,111,168,0.15);border:1px solid rgba(61,111,168,0.3);border-radius:10px;padding:1rem;">
+                <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#7A8BAA;margin-bottom:0.3rem;">SAM — 2 Years</div>
+                <div style="font-size:1rem;font-weight:700;color:#F0C96A;">Indian Ocean + Gulf</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">Diaspora + Island Economies</div>
+            </div>
+            <div style="background:rgba(61,111,168,0.15);border:1px solid rgba(61,111,168,0.3);border-radius:10px;padding:1rem;">
+                <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#7A8BAA;margin-bottom:0.3rem;">SOM — 5 Years</div>
+                <div style="font-size:1rem;font-weight:700;color:#F0C96A;">Broader South Asia</div>
+                <div style="font-size:0.75rem;color:#B8C8E0;">Regional export + white-label</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">05 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 6 — TECHNOLOGY MOAT
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-6" data-slide="6">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">Technology Moat</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">In-House Proprietary ERP via AI / Vibe Coding</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">Most food manufacturers our size pay LKR 5M–15M to software vendors for systems they do not own. We build and own ours — and that cost advantage compounds every year we operate.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <ul class="bullet-list">
+                <li>The founder is a production-grade software engineer building our entire internal tech stack — ERP, inventory, logistics, and B2B portal — in-house using AI-assisted development, at effectively zero licensing cost, eliminating a recurring overhead that cripples most SME manufacturers in Sri Lanka.</li>
+                <li>Our distributor dashboard and B2B client portal give resort partners real-time visibility into order status, delivery ETAs, and reorder thresholds. In a market where most local manufacturers operate on WhatsApp and spreadsheets, this positions us as a credible, modern supply partner.</li>
+            </ul>
+            <ul class="bullet-list">
+                <li>The proprietary stack creates genuine switching costs. When a Maldives procurement manager can view usage analytics and set automated reorder triggers, they are not just buying couscous — they are integrating into a supply system. That stickiness does not appear on the balance sheet.</li>
+            </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1.1rem;" class="reveal">
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.15);border-radius:8px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:0.3rem;">🖥️</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Custom ERP</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Batch tracking, cost accounting</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.15);border-radius:8px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:0.3rem;">🌐</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">B2B Client Portal</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Procurement visibility, auto-reorder</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.15);border-radius:8px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:0.3rem;">📦</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Inventory & Logistics</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Real-time stock, delivery ETAs</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.15);border-radius:8px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:0.3rem;">📊</div>
+                <div style="font-size:0.78rem;font-weight:600;color:#F0C96A;">Distributor Dashboard</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Commission, targets, territories</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">06 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 7 — GO-TO-MARKET & DISTRIBUTION (FIXED)
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-7" data-slide="7">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">Go-To-Market & Distribution</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">Family Network & Wellness Community Loops</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">Distribution is the hardest problem in consumer food. We have a structural head start.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <ul class="bullet-list">
+                <li><strong style="color:#F0C96A;">Domestic retail:</strong> The founding family operates wholesale and retail businesses in Sri Lanka, with direct, working knowledge of the retail supply chain. This provides a genuine head start in understanding buyer requirements at Keells Super, Cargills Food City, and Arpico — shelf placement negotiations we can enter with credibility and supply chain fluency from day one.</li>
+                <li><strong style="color:#F0C96A;">Maldives B2B:</strong> Activated through direct resort procurement outreach, supported by product samples, our B2B client portal, and a compelling cost-per-kg narrative versus current European suppliers. Target: minimum three resort property agreements within six months of production commencement.</li>
+            </ul>
+            <ul class="bullet-list">
+                <li><strong style="color:#F0C96A;">Wellness channel:</strong> The fitness and health community is our fastest organic acquisition channel — gym chain partnerships, sports nutrition retail, and meal prep subscription services across Colombo, positioning couscous as the performance carbohydrate for a health-literate demographic at minimal cash spend.</li>
+                <li><strong style="color:#F0C96A;">Phase 2 — Hotel & QSR:</strong> As production scales, we expand into hotel food service, quick-service restaurant chains, and institutional catering contracts across Sri Lanka and the Indian Ocean corridor.</li>
+            </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1.1rem;" class="reveal">
+            <div style="border-left:3px solid #F0C96A;padding:0.6rem 0.8rem;background:rgba(240,201,106,0.06);border-radius:0 8px 8px 0;">
+                <div style="font-size:0.8rem;font-weight:600;color:#F0C96A;">Keells · Cargills · Arpico</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Day 1 supply chain understanding</div>
+            </div>
+            <div style="border-left:3px solid #3D6FA8;padding:0.6rem 0.8rem;background:rgba(61,111,168,0.06);border-radius:0 8px 8px 0;">
+                <div style="font-size:0.8rem;font-weight:600;color:#B8C8E0;">Maldives Resorts</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">6-month B2B target</div>
+            </div>
+            <div style="border-left:3px solid #C9952A;padding:0.6rem 0.8rem;background:rgba(201,149,42,0.06);border-radius:0 8px 8px 0;">
+                <div style="font-size:0.8rem;font-weight:600;color:#B8C8E0;">Gym & Wellness Retail</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Organic growth channel</div>
+            </div>
+            <div style="border-left:3px solid #7A8BAA;padding:0.6rem 0.8rem;background:rgba(122,139,170,0.06);border-radius:0 8px 8px 0;">
+                <div style="font-size:0.8rem;font-weight:600;color:#B8C8E0;">Hotel & QSR Food Service</div>
+                <div style="font-size:0.7rem;color:#7A8BAA;">Phase 2 expansion</div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">07 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 8 — FINANCIAL MOAT & MARGINS
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-8" data-slide="8">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">Financial Moat</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">Import Substitution Cost Advantage</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">We do not compete on price by cutting corners — we compete on price because our cost structure is architecturally lower than every imported brand in the market.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;" class="reveal">
+            <div>
+                <ul class="bullet-list">
+                    <li>Imported finished couscous retails at ~LKR 3,000/kg inclusive of finished-goods import duty, freight, importer margin, distributor margin, and retailer margin. Our landed cost for bulk semolina plus local processing positions us to retail at LKR 800–1,200/kg with a 40–55% gross margin. This is arithmetic derived from publicly available tariff schedules — not a projection.</li>
+                    <li>The Maldives B2B channel commands premium pricing relative to our domestic cost base. We undercut on freight economics, lead times, and the service layer provided by our client portal.</li>
+                    <li>As volume scales, semolina procurement leverage grows, driving bulk discounts and further widening per-unit margin. The cost moat expands with scale — the inverse of most startup cost structures.</li>
+                </ul>
+            </div>
+            <div>
+                <div style="margin-bottom:0.8rem;">
+                    <div class="price-bar">
+                        <div class="price-label">San Remo (Import)</div>
+                        <div class="bar-track" style="flex:1;"><div class="bar-fill" data-width="100"></div></div>
+                        <div class="price-value">LKR 3,000</div>
+                    </div>
+                    <div class="price-bar">
+                        <div class="price-label">Our Retail Target</div>
+                        <div class="bar-track" style="flex:1;"><div class="bar-fill" data-width="33" style="background:linear-gradient(90deg,#3D6FA8,#5A9FD8);"></div></div>
+                        <div class="price-value" style="color:#B8C8E0;">LKR 1,000</div>
+                    </div>
+                    <div class="price-bar">
+                        <div class="price-label">Our B2B Export</div>
+                        <div class="bar-track" style="flex:1;"><div class="bar-fill" data-width="27" style="background:linear-gradient(90deg,#3D6FA8,#5A9FD8);"></div></div>
+                        <div class="price-value" style="color:#B8C8E0;">LKR 800</div>
+                    </div>
+                </div>
+                <div style="background:rgba(240,201,106,0.1);border:1px solid rgba(240,201,106,0.25);border-radius:10px;padding:1rem;text-align:center;">
+                    <div style="font-size:2.2rem;font-weight:900;color:#F0C96A;" class="stat-glow">40–55%</div>
+                    <div style="font-size:0.82rem;color:#B8C8E0;">Target Gross Margin</div>
+                    <div style="font-size:0.72rem;color:#7A8BAA;margin-top:0.3rem;">Based on publicly available tariff schedules</div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.8rem;">08 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 9 — THE TEAM
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-9" data-slide="9">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-50px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#3D6FA8;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="section-label reveal">The Team</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#F5F3EE;margin-bottom:0.4rem;" class="reveal">Visionary Software Engineer + Deep Commercial Heritage</h2>
+        <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:#7A8BAA;font-style:italic;margin-bottom:1.2rem;" class="reveal">This business sits at the intersection of industrial food manufacturing, technology-driven operations, and generational distribution relationships. The founding team was built for exactly this.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;" class="reveal">
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.18);border-radius:12px;padding:1.2rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">👨‍💻</div>
+                <div style="font-weight:700;color:#F5F3EE;font-size:1rem;">Mohammed Fashan</div>
+                <div style="color:#F0C96A;font-size:0.82rem;margin-bottom:0.6rem;">Founder & CEO</div>
+                <ul class="bullet-list" style="font-size:0.8rem;">
+                    <li>Full-stack software engineer · France-based · Sri Lankan</li>
+                    <li>Hands-on experience: B2B SaaS, logistics platforms, AI-integrated systems</li>
+                    <li>First-hand European couscous market exposure — pricing, supply chains, consumer positioning</li>
+                    <li>Dual positioning: Sri Lankan heritage + France-based category knowledge. A genuinely rare founder profile for this geography and sector.</li>
+                </ul>
+            </div>
+            <div style="background:rgba(61,111,168,0.1);border:1px solid rgba(61,111,168,0.25);border-radius:12px;padding:1.2rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">🏪</div>
+                <div style="font-weight:700;color:#F5F3EE;font-size:1rem;">Family Commercial Network</div>
+                <div style="color:#B8C8E0;font-size:0.82rem;margin-bottom:0.6rem;">Distribution & Trade Infrastructure</div>
+                <ul class="bullet-list" style="font-size:0.8rem;">
+                    <li>The founding family operates wholesale and retail businesses in Sri Lanka, with decades of direct, working knowledge of the retail supply chain</li>
+                    <li>Deep understanding of buyer requirements and supply chain logistics for Sri Lanka's major grocery networks</li>
+                    <li>Not advisory-level involvement — this is the operational backbone of our go-to-market</li>
+                </ul>
+            </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.7rem;margin-top:0.8rem;font-size:0.8rem;color:#B8C8E0;" class="reveal">
+            <strong style="color:#F0C96A;">Planned milestone hires:</strong> (1) Plant operations manager with food processing experience — activated at machinery installation. (2) Maldives-based B2B business development lead for resort account management — activated upon first export shipment.
+        </div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.6rem;">09 / 19</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 10 — THE ASK (FIXED — equity only, Musharakah)
+══════════════════════════════════════════════════════ -->
+<div class="slide slide-10" data-slide="10">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:450px;height:450px;top:-100px;right:-80px;background:#F0C96A;opacity:0.11;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-70px;left:-50px;background:#3D6FA8;opacity:0.09;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content">
+        <div class="section-label reveal">The Ask</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;color:#F5F3EE;margin-bottom:0.2rem;" class="reveal">This capital builds a manufacturing asset — not a marketing campaign.</h2>
+        <div style="font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:#F0C96A;margin-bottom:0.2rem;" class="reveal stat-glow">LKR 45M – 70M</div>
+        <div style="font-size:0.9rem;color:#B8C8E0;margin-bottom:1.2rem;" class="reveal">≈ USD 135,000 – 210,000 · Seed / Pre-Series A</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;margin-bottom:1.2rem;" class="reveal">
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:#F0C96A;">~40%</div>
+                <div style="font-size:0.72rem;color:#B8C8E0;">Machinery Procurement & Installation</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:#F0C96A;">~20%</div>
+                <div style="font-size:0.72rem;color:#B8C8E0;">Facility Setup & Fit-Out</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:#F0C96A;">~20%</div>
+                <div style="font-size:0.72rem;color:#B8C8E0;">Raw Material Inventory</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:#F0C96A;">~12%</div>
+                <div style="font-size:0.72rem;color:#B8C8E0;">Operational Runway (6–9 mo)</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.08);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:#F0C96A;">~8%</div>
+                <div style="font-size:0.72rem;color:#B8C8E0;">Brand, Packaging & Market Entry</div>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;" class="reveal">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.8rem;">
+                <div style="font-size:0.7rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Structure</div>
+                <div style="font-size:0.85rem;color:#F5F3EE;">Equity partnership — proportional profit share, losses proportional to capital contributed. Open to discussing exact ratio with the right partner.</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.8rem;">
+                <div style="font-size:0.7rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Exit Horizon</div>
+                <div style="font-size:0.85rem;color:#F5F3EE;">5-year trade sale or regional expansion round.</div>
+            </div>
+            <div style="background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.2);border-radius:8px;padding:0.8rem;">
+                <div style="font-size:0.7rem;color:#7A8BAA;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Asset-Backed Downside</div>
+                <div style="font-size:0.85rem;color:#F5F3EE;">Machinery retains <strong style="color:#F0C96A;">60–70%</strong> residual value as a liquidation asset.</div>
+            </div>
+        </div>
+        <div style="margin-top:0.8rem;text-align:center;font-size:0.78rem;color:#7A8BAA;" class="reveal">Mohammed Fashan · fashanzak4@gmail.com · +33 (0) 780737115</div>
+        <div style="text-align:right;font-size:0.75rem;color:#7A8BAA;margin-top:0.4rem;">10 / 19</div>
+    </div>
+</div>
+
+<div class="slide slide-11" data-slide="11">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:380px;height:380px;top:-80px;right:-70px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:260px;height:260px;bottom:-50px;left:-40px;background:#C9952A;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Capital Requirements</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:#E8F0F8;margin-bottom:0.3rem;">Total Raise: LKR 45M – 70M</h2>
+        <p class="reveal" style="color:#7A8BAA;font-size:0.85rem;margin-bottom:1.4rem;">≈ USD 135,000 – 210,000 · Founder contributes LKR 5M alongside investor capital</p>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(240,201,106,0.15);border-radius:10px;padding:1rem 1.2rem;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.14em;color:#7A8BAA;margin-bottom:0.3rem;">One-Time Capex</div>
+                <div class="glow-pulse" style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#F0C96A;">~LKR 27M–30M</div>
+                <div style="font-size:0.78rem;color:#B8C8E0;margin-top:0.2rem;">Machinery · Facility · Inventory · Brand</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(201,149,42,0.2);border-radius:10px;padding:1rem 1.2rem;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.14em;color:#7A8BAA;margin-bottom:0.3rem;">Monthly Opex</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#C9952A;">~LKR 450K–640K</div>
+                <div style="font-size:0.78rem;color:#B8C8E0;margin-top:0.2rem;">Rent · People · Utilities · Misc</div>
+            </div>
+        </div>
+        <div class="reveal" style="background:rgba(240,201,106,0.06);border:1px solid rgba(240,201,106,0.2);border-radius:8px;padding:0.8rem 1.1rem;display:flex;align-items:center;gap:0.8rem;">
+            <span style="font-size:1.3rem;">💡</span>
+            <span style="font-size:0.82rem;color:#B8C8E0;">Capital is deployed in two buckets: physical asset procurement (machinery, facility) and operational runway (people, inventory, working capital). The physical assets retain <strong style="color:#F0C96A;">60–70% residual value</strong> — limiting investor downside from day one.</span>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: MACHINERY & CAPEX BREAKDOWN -->
+
+<div class="slide slide-12" data-slide="12">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:320px;height:320px;top:-60px;right:-50px;background:#F0C96A;opacity:0.07;"></div>
+        <div class="blob" style="width:200px;height:200px;bottom:-40px;left:-30px;background:#B8C8E0;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">One-Time Capital Expenditure</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:1rem;">Machinery & Setup — Itemised</h2>
+        <div class="reveal" style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.45rem 0.8rem;border-radius:6px;background:rgba(240,201,106,0.08);border-left:3px solid #F0C96A;">
+                <span style="font-size:0.78rem;font-weight:600;color:#E8F0F8;">Item</span>
+                <span style="font-size:0.78rem;font-weight:600;color:#F0C96A;text-align:right;">USD</span>
+                <span style="font-size:0.78rem;font-weight:600;color:#F0C96A;text-align:right;">LKR (approx)</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #F0C96A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🏭 Couscous Production Line (150–200 kg/hr, China)</span>
+                <span style="font-size:0.8rem;color:#F0C96A;text-align:right;font-weight:600;">$31,380</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 9.4M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">📦 Packaging Machine (250g–2kg)</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;font-weight:600;">$12,000</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 3.6M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🚢 Shipping + Sri Lanka Customs + Installation (est.)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~$6,000</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 2M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🏗️ Warehouse fit-out (3-phase power, production floor, shelving)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">—</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 3M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🔐 Warehouse security deposit (3–6 months advance)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">—</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">LKR 750K–1.5M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🌾 Initial semolina inventory (first production batch, ~8–10 MT)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">—</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 4M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🎁 Initial packaging materials (China MOQ, pouches + bags)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">—</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 1.5M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🎨 Brand design + labels + SLS certification + company legal</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">—</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~LKR 1.8M</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr;gap:0.5rem;padding:0.55rem 0.8rem;border-radius:6px;background:rgba(240,201,106,0.1);border:1px solid rgba(240,201,106,0.25);">
+                <span style="font-size:0.83rem;font-weight:700;color:#F0C96A;">TOTAL ONE-TIME CAPEX</span>
+                <span style="font-size:0.83rem;color:#F0C96A;text-align:right;font-weight:700;">~$49,380</span>
+                <span style="font-size:0.83rem;color:#F0C96A;text-align:right;font-weight:700;">~LKR 27M–30M</span>
+            </div>
+        </div>
+        <div class="reveal" style="margin-top:0.6rem;font-size:0.72rem;color:#7A8BAA;">* All USD figures converted at ~LKR 300/USD indicative rate. Final conversion at time of investment.</div>
+    </div>
+</div>
+
+<!-- SLIDE 4: FACILITY & LOCATION -->
+
+<div class="slide slide-13" data-slide="13">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:350px;height:350px;top:-70px;right:-60px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-40px;left:-30px;background:#C9952A;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Facility Strategy</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:0.9rem;">Rent vs. Buy — Decision & Rationale</h2>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+            <div style="background:rgba(255,100,100,0.05);border:1px solid rgba(255,100,100,0.2);border-radius:10px;padding:1rem 1.1rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                    <span style="font-size:1.1rem;">❌</span>
+                    <span style="font-size:0.78rem;font-weight:600;color:#ff8080;text-transform:uppercase;letter-spacing:0.1em;">Buy Land — Ruled Out</span>
+                </div>
+                <div style="font-size:0.78rem;color:#B8C8E0;line-height:1.6;">
+                    Industrial land near Negombo: <strong style="color:#F0C96A;">LKR 1.2M–1.5M per perch</strong><br>
+                    Min. 20–30 perches needed → <strong style="color:#ff8080;">LKR 24M–45M for land alone</strong><br>
+                    Eats entire raise before one machine is ordered.<br>
+                    Building construction = additional LKR 8M–15M + 6–12 months delay.
+                </div>
+            </div>
+            <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:1rem 1.1rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                    <span style="font-size:1.1rem;">✅</span>
+                    <span style="font-size:0.78rem;font-weight:600;color:#4ade80;text-transform:uppercase;letter-spacing:0.1em;">Rent Warehouse — Selected</span>
+                </div>
+                <div style="font-size:0.78rem;color:#B8C8E0;line-height:1.6;">
+                    <strong style="color:#F0C96A;">LKR 175,000–250,000/month</strong> for 4,000–5,000 sq ft<br>
+                    Ready immediately — no construction wait<br>
+                    Preserves capital for machines and inventory<br>
+                    Flexible — scale up space as revenue grows
+                </div>
+            </div>
+        </div>
+        <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(240,201,106,0.15);border-radius:10px;padding:0.9rem 1.1rem;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:#F0C96A;margin-bottom:0.5rem;">📍 Recommended Location: Katunayake / Ja-Ela / Ekala Corridor</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;">
+                <div style="text-align:center;padding:0.5rem;background:rgba(240,201,106,0.05);border-radius:6px;">
+                    <div style="font-size:1.2rem;margin-bottom:0.2rem;">🌊</div>
+                    <div style="font-size:0.7rem;color:#B8C8E0;">Inland from coast — no salt-air rust risk</div>
+                </div>
+                <div style="text-align:center;padding:0.5rem;background:rgba(240,201,106,0.05);border-radius:6px;">
+                    <div style="font-size:1.2rem;margin-bottom:0.2rem;">⚡</div>
+                    <div style="font-size:0.7rem;color:#B8C8E0;">3-phase electricity available in zone</div>
+                </div>
+                <div style="text-align:center;padding:0.5rem;background:rgba(240,201,106,0.05);border-radius:6px;">
+                    <div style="font-size:1.2rem;margin-bottom:0.2rem;">🚢</div>
+                    <div style="font-size:0.7rem;color:#B8C8E0;">Near Colombo Port — 40ft container access</div>
+                </div>
+                <div style="text-align:center;padding:0.5rem;background:rgba(240,201,106,0.05);border-radius:6px;">
+                    <div style="font-size:1.2rem;margin-bottom:0.2rem;">🏭</div>
+                    <div style="font-size:0.7rem;color:#B8C8E0;">Established industrial zone — zone security</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: PEOPLE & MONTHLY OPEX -->
+
+<div class="slide slide-14" data-slide="14">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-60px;right:-50px;background:#F0C96A;opacity:0.07;"></div>
+        <div class="blob" style="width:210px;height:210px;bottom:-40px;left:-30px;background:#B8C8E0;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Monthly Operating Costs</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:0.9rem;">People, Facility & Running Costs</h2>
+        <div class="reveal" style="display:flex;flex-direction:column;gap:0.42rem;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.4rem 0.8rem;border-radius:5px;background:rgba(240,201,106,0.08);border-left:3px solid #F0C96A;">
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-transform:uppercase;letter-spacing:0.08em;">Role / Item</span>
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-align:right;">LKR/Month</span>
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-align:right;">Notes</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #F0C96A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🏗️ Warehouse rent (4,000–5,000 sq ft, Katunayake/Ja-Ela)</span>
+                <span style="font-size:0.8rem;color:#F0C96A;text-align:right;font-weight:600;">175K–250K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">Industrial zone rate</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">👷 Production workers × 3 (machine operators)</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;font-weight:600;">90K–120K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">~LKR 30–40K/person</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🔐 Security guard × 1 (on-site, day + night cover)</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;font-weight:600;">35K–45K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">Or contracted firm</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">📊 Sales representative × 1 (domestic FMCG field sales)</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;font-weight:600;">50K–75K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">FMCG market rate</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">📋 Part-time admin / certification liaison</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;font-weight:600;">30K–40K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">Government paperwork</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">⚡ Utilities (3-phase electricity, water)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;font-weight:600;">40K–60K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">Light manufacturing</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.45rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🚗 Transport, consumables, miscellaneous</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;font-weight:600;">30K–50K</span>
+                <span style="font-size:0.75rem;color:#7A8BAA;text-align:right;">Delivery + ops</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr;padding:0.5rem 0.8rem;border-radius:6px;background:rgba(240,201,106,0.1);border:1px solid rgba(240,201,106,0.25);">
+                <span style="font-size:0.83rem;font-weight:700;color:#F0C96A;">TOTAL MONTHLY OPEX</span>
+                <span style="font-size:0.83rem;color:#F0C96A;text-align:right;font-weight:700;">~450K–640K</span>
+                <span style="font-size:0.75rem;color:#F0C96A;text-align:right;">6 mo = LKR 2.7M–3.8M</span>
+            </div>
+        </div>
+        <div class="reveal" style="margin-top:0.6rem;font-size:0.74rem;color:#7A8BAA;">Note: Founder (CEO) salary is deferred until first revenue milestone. Tech stack (ERP, portal) built in-house by founder — zero licensing cost.</div>
+    </div>
+</div>
+
+<!-- SLIDE 6: FULL CAPITAL DEPLOYMENT TABLE -->
+
+<div class="slide slide-15" data-slide="15">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:360px;height:360px;top:-70px;right:-55px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:230px;height:230px;bottom:-45px;left:-35px;background:#C9952A;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Use of Funds</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:0.9rem;">Full Capital Deployment — LKR 45M–70M</h2>
+        <div class="reveal" style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.4rem 0.8rem;border-radius:5px;background:rgba(240,201,106,0.08);">
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-transform:uppercase;">Category</span>
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-align:right;">LKR Amount</span>
+                <span style="font-size:0.72rem;font-weight:700;color:#F0C96A;text-align:right;">% of Raise</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #F0C96A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🏭 Machinery procurement, shipping & installation</span>
+                <span style="font-size:0.8rem;color:#F0C96A;font-weight:600;text-align:right;">~LKR 15M</span>
+                <span style="font-size:0.8rem;color:#F0C96A;text-align:right;">~33%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🏗️ Facility rental setup, fit-out & security deposit</span>
+                <span style="font-size:0.8rem;color:#C9952A;font-weight:600;text-align:right;">~LKR 4.5M–5M</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;">~10%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #C9952A;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🌾 Initial semolina + packaging inventory</span>
+                <span style="font-size:0.8rem;color:#C9952A;font-weight:600;text-align:right;">~LKR 5.5M</span>
+                <span style="font-size:0.8rem;color:#C9952A;text-align:right;">~12%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">👥 People — first 6 months payroll (pre-revenue)</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;font-weight:600;text-align:right;">~LKR 2.7M–3.8M</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~8%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🎨 Brand, packaging design, SLS certification & legal</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;font-weight:600;text-align:right;">~LKR 3M</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~7%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #B8C8E0;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">📱 Market entry, sampling, B2B resort outreach</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;font-weight:600;text-align:right;">~LKR 2M</span>
+                <span style="font-size:0.8rem;color:#B8C8E0;text-align:right;">~4%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);border-left:3px solid #7A8BAA;">
+                <span style="font-size:0.8rem;color:#E8F0F8;">🛡️ Contingency reserve (10%) + forex buffer</span>
+                <span style="font-size:0.8rem;color:#7A8BAA;font-weight:600;text-align:right;">~LKR 3M–4M</span>
+                <span style="font-size:0.8rem;color:#7A8BAA;text-align:right;">~8%</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.52rem 0.8rem;border-radius:6px;background:rgba(240,201,106,0.1);border:1px solid rgba(240,201,106,0.25);">
+                <span style="font-size:0.85rem;font-weight:700;color:#F0C96A;">TOTAL INVESTOR CAPITAL REQUIRED</span>
+                <span style="font-size:0.85rem;color:#F0C96A;font-weight:700;text-align:right;">LKR 35M–38M</span>
+                <span style="font-size:0.85rem;color:#F0C96A;text-align:right;">Core</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.48rem 0.8rem;border-radius:5px;background:rgba(255,255,255,0.03);">
+                <span style="font-size:0.78rem;color:#B8C8E0;">+ Founder capital contribution (LKR 5M)</span>
+                <span style="font-size:0.78rem;color:#B8C8E0;font-weight:600;text-align:right;">LKR 5M</span>
+                <span style="font-size:0.78rem;color:#B8C8E0;text-align:right;">Founder</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.2fr 1fr 0.7fr;gap:0.5rem;padding:0.52rem 0.8rem;border-radius:6px;background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.25);">
+                <span style="font-size:0.85rem;font-weight:700;color:#C9952A;">TOTAL RAISE (COMFORTABLE BUFFER)</span>
+                <span style="font-size:0.85rem;color:#C9952A;font-weight:700;text-align:right;">LKR 45M–70M</span>
+                <span style="font-size:0.85rem;color:#C9952A;text-align:right;">Full ask</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: MARGIN & UNIT ECONOMICS -->
+
+<div class="slide slide-16" data-slide="16">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:360px;height:360px;top:-70px;right:-60px;background:#F0C96A;opacity:0.09;"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-50px;left:-40px;background:#C9952A;opacity:0.07;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Unit Economics & Margin Model</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:0.9rem;">Why Our Margins Are Structurally Defensible</h2>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(240,201,106,0.15);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:#7A8BAA;margin-bottom:0.3rem;">Imported Retail</div>
+                <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#ff8080;">LKR 3,000</div>
+                <div style="font-size:0.72rem;color:#7A8BAA;margin-top:0.2rem;">per kg (San Remo)</div>
+                <div style="font-size:0.7rem;color:#ff8080;margin-top:0.3rem;">Incl. finished-goods duty + freight + 3× margins</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(240,201,106,0.2);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:#7A8BAA;margin-bottom:0.3rem;">Our Retail Price</div>
+                <div class="glow-pulse" style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#F0C96A;">LKR 1,000</div>
+                <div style="font-size:0.72rem;color:#7A8BAA;margin-top:0.2rem;">per kg (target)</div>
+                <div style="font-size:0.7rem;color:#4ade80;margin-top:0.3rem;">40–55% gross margin at this price</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(201,149,42,0.2);border-radius:10px;padding:1rem;text-align:center;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:#7A8BAA;margin-bottom:0.3rem;">B2B Export Price</div>
+                <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#C9952A;">LKR 800</div>
+                <div style="font-size:0.72rem;color:#7A8BAA;margin-top:0.2rem;">per kg (Maldives B2B)</div>
+                <div style="font-size:0.7rem;color:#4ade80;margin-top:0.3rem;">Volume compensates lower per-kg rate</div>
+            </div>
+        </div>
+        <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(240,201,106,0.12);border-radius:10px;padding:0.9rem 1.1rem;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:#F0C96A;margin-bottom:0.6rem;">Revenue Projection — Phase 1 Conservative Model</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;">
+                <div>
+                    <div style="font-size:0.7rem;color:#7A8BAA;margin-bottom:0.2rem;">Annual Production Capacity</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:#E8F0F8;">500 MT</div>
+                    <div style="font-size:0.68rem;color:#7A8BAA;">Phase 1 target</div>
+                </div>
+                <div>
+                    <div style="font-size:0.7rem;color:#7A8BAA;margin-bottom:0.2rem;">Blended Avg. Sell Price</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:#F0C96A;">LKR 800/kg</div>
+                    <div style="font-size:0.68rem;color:#7A8BAA;">B2B + retail blended</div>
+                </div>
+                <div>
+                    <div style="font-size:0.7rem;color:#7A8BAA;margin-bottom:0.2rem;">Top-Line Annual Revenue</div>
+                    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#F0C96A;">LKR 400M</div>
+                    <div style="font-size:0.68rem;color:#7A8BAA;">&lt;0.1% market penetration</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: TIMELINE / MILESTONES -->
+
+<div class="slide slide-17" data-slide="17">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:340px;height:340px;top:-65px;right:-55px;background:#F0C96A;opacity:0.08;"></div>
+        <div class="blob" style="width:210px;height:210px;bottom:-40px;left:-30px;background:#C9952A;opacity:0.06;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Execution Roadmap</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:1rem;">Month-by-Month Milestone Plan</h2>
+        <div class="reveal" style="position:relative;padding-left:1.8rem;">
+            <div style="position:absolute;left:0.5rem;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#F0C96A,#C9952A,rgba(184,200,224,0.3));border-radius:2px;"></div>
+            <div style="display:flex;flex-direction:column;gap:0.55rem;">
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;border-left:none;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#F0C96A;box-shadow:0 0 8px rgba(240,201,106,0.6);"></div>
+                    <span style="font-size:0.7rem;color:#F0C96A;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M1</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">Company incorporation (Pvt Ltd), bank account, initial legal setup</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#F0C96A;box-shadow:0 0 8px rgba(240,201,106,0.5);"></div>
+                    <span style="font-size:0.7rem;color:#F0C96A;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M1–M2</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">Chinese machinery order placed (30% deposit) · Warehouse lease signed</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#C9952A;box-shadow:0 0 8px rgba(201,149,42,0.5);"></div>
+                    <span style="font-size:0.7rem;color:#C9952A;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M1–M3</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">ERP + B2B portal development (founder-built, in parallel) · SLS cert. process initiated</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#C9952A;box-shadow:0 0 8px rgba(201,149,42,0.5);"></div>
+                    <span style="font-size:0.7rem;color:#C9952A;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M3–M4</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">Machinery arrives in Sri Lanka · Installation + commissioning (Chinese technician)</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#B8C8E0;box-shadow:0 0 6px rgba(184,200,224,0.4);"></div>
+                    <span style="font-size:0.7rem;color:#B8C8E0;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M4</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">Trial production run · Packaging design finalised · Staff hired and trained</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#B8C8E0;box-shadow:0 0 6px rgba(184,200,224,0.4);"></div>
+                    <span style="font-size:0.7rem;color:#B8C8E0;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M5</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">First domestic retail stock placed (Keells / Cargills / Arpico) · Brand launch</span>
+                </div>
+                <div style="position:relative;padding:0.5rem 0.8rem;background:rgba(240,201,106,0.07);border:1px solid rgba(240,201,106,0.2);border-radius:7px;">
+                    <div style="position:absolute;left:-1.35rem;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#F0C96A;box-shadow:0 0 12px rgba(240,201,106,0.7);"></div>
+                    <span style="font-size:0.7rem;color:#F0C96A;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">M6 🎯</span>
+                    <span style="font-size:0.8rem;color:#E8F0F8;margin-left:0.6rem;">First Maldives B2B sample shipment · Target 3 resort agreements · Revenue begins</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9: INVESTMENT STRUCTURE -->
+
+<div class="slide slide-18" data-slide="18">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:380px;height:380px;top:-80px;right:-65px;background:#F0C96A;opacity:0.10;"></div>
+        <div class="blob" style="width:250px;height:250px;bottom:-50px;left:-40px;background:#C9952A;opacity:0.07;"></div>
+        <div class="blob" style="width:180px;height:180px;top:40%;left:10%;background:#B8C8E0;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#F0C96A;margin-bottom:0.4rem;">Investment Structure</div>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#E8F0F8;margin-bottom:0.9rem;">Partnership Terms — Musharakah (Islamic Equity)</h2>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(240,201,106,0.15);border-radius:10px;padding:1rem 1.1rem;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:#7A8BAA;margin-bottom:0.6rem;">Structure</div>
+                <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.6rem;background:rgba(240,201,106,0.06);border-radius:5px;">
+                        <span style="font-size:0.78rem;color:#B8C8E0;">Investment type</span>
+                        <span style="font-size:0.78rem;color:#F0C96A;font-weight:600;">Equity (Musharakah)</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.6rem;background:rgba(255,255,255,0.02);border-radius:5px;">
+                        <span style="font-size:0.78rem;color:#B8C8E0;">Interest / Riba</span>
+                        <span style="font-size:0.78rem;color:#4ade80;font-weight:600;">Zero — Sharia-compliant</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.6rem;background:rgba(255,255,255,0.02);border-radius:5px;">
+                        <span style="font-size:0.78rem;color:#B8C8E0;">Investor equity</span>
+                        <span style="font-size:0.78rem;color:#F0C96A;font-weight:600;">~30–40% (negotiable)</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.6rem;background:rgba(255,255,255,0.02);border-radius:5px;">
+                        <span style="font-size:0.78rem;color:#B8C8E0;">Founder equity</span>
+                        <span style="font-size:0.78rem;color:#F0C96A;font-weight:600;">~60–70% (majority control)</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.6rem;background:rgba(255,255,255,0.02);border-radius:5px;">
+                        <span style="font-size:0.78rem;color:#B8C8E0;">Exit horizon</span>
+                        <span style="font-size:0.78rem;color:#B8C8E0;font-weight:600;">5-year trade sale or regional expansion round</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(201,149,42,0.2);border-radius:10px;padding:1rem 1.1rem;">
+                <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:#7A8BAA;margin-bottom:0.6rem;">Downside Protection</div>
+                <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                    <div style="padding:0.4rem 0.6rem;background:rgba(201,149,42,0.07);border-radius:5px;border-left:2px solid #C9952A;">
+                        <div style="font-size:0.75rem;font-weight:600;color:#C9952A;margin-bottom:0.15rem;">Asset-Backed Security</div>
+                        <div style="font-size:0.73rem;color:#B8C8E0;">Machinery retains 60–70% residual value. Physical assets can be liquidated — investor capital is partially recovered even in worst case.</div>
+                    </div>
+                    <div style="padding:0.4rem 0.6rem;background:rgba(240,201,106,0.05);border-radius:5px;border-left:2px solid #F0C96A;">
+                        <div style="font-size:0.75rem;font-weight:600;color:#F0C96A;margin-bottom:0.15rem;">Limited Liability Structure</div>
+                        <div style="font-size:0.73rem;color:#B8C8E0;">Private Limited Company in Sri Lanka. Investor and founder personal assets are protected. Loss limited to company assets only.</div>
+                    </div>
+                    <div style="padding:0.4rem 0.6rem;background:rgba(184,200,224,0.05);border-radius:5px;border-left:2px solid #B8C8E0;">
+                        <div style="font-size:0.75rem;font-weight:600;color:#B8C8E0;margin-bottom:0.15rem;">Phased Capital Deployment</div>
+                        <div style="font-size:0.73rem;color:#B8C8E0;">Capital follows signed agreements, not projections. Tranches released against milestones — reduces deployment risk.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reveal" style="background:rgba(240,201,106,0.06);border:1px solid rgba(240,201,106,0.2);border-radius:8px;padding:0.7rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+            <span style="font-size:1.2rem;">🤝</span>
+            <span style="font-size:0.8rem;color:#B8C8E0;">We seek a <strong style="color:#F0C96A;">strategic equity partner</strong> — not just capital. ArthAum's GCC network and market-entry experience in the Indian Ocean corridor is as valuable as the investment itself.</span>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: CLOSING -->
+
+<div class="slide slide-19" data-slide="19">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:#F0C96A;opacity:0.13;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#C9952A;opacity:0.10;"></div>
+        <div class="blob" style="width:220px;height:220px;top:45%;left:12%;background:#B8C8E0;opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+    <div class="content text-center">
+        <div style="font-size:80px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;" class="reveal">🌾</div>
+        <div class="reveal" style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:#7A8BAA;margin-bottom:0.6rem;">Project Couscous Sri Lanka · Seed Round 2026</div>
+        <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:900;background:linear-gradient(135deg,#F0C96A,#ffffff,#C9952A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.6rem;line-height:1.15;">There is no couscous made in South Asia.</h1>
+        <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.8vw,2rem);color:#B8C8E0;font-weight:400;margin-bottom:1.5rem;">Today, we fix that.</h2>
+        <div class="reveal" style="display:inline-flex;flex-direction:column;gap:0.4rem;background:rgba(255,255,255,0.04);border:1px solid rgba(240,201,106,0.2);border-radius:12px;padding:1rem 2rem;">
+            <div style="font-size:0.85rem;color:#F0C96A;font-weight:600;">Mohammed Fashan · Founder & CEO</div>
+            <div style="font-size:0.78rem;color:#B8C8E0;">fashanzak4@gmail.com</div>
+            <div style="font-size:0.78rem;color:#B8C8E0;">+33 780 737 115 · www.projectcouscoussl.com</div>
+        </div>
+    </div>
+</div>
+
+</div><!-- end .deck -->
+
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 19</span>
+</div>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    for (let i = 1; i <= total; i++) { const dot = document.createElement('div'); dot.className = 'dot' + (i === 1 ? ' active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); }
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector('.slide[data-slide="' + n + '"]');
+        if (prev) prev.classList.remove('active');
+        if (next) { next.classList.add('active'); animateSlide(next); }
+        current = n; updateNav();
+    }
+    function changeSlide(dir) { let next = current + dir; if (next < 1) next = total; if (next > total) next = 1; goToSlide(next); }
+    function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); }); counter.textContent = current + ' / ' + total; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } });
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+            el.offsetHeight;
+            const delay = i * 0.08;
+            el.style.transition = 'opacity 0.35s ease ' + delay + 's, transform 0.35s ease ' + delay + 's';
+            el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+        });
+        animateSlideEffects(slide);
+    }
+
+    function animateSlideEffects(slide) {
+        slide.querySelectorAll('[data-count]:not(.counted)').forEach(el => {
+            el.classList.add('counted');
+            const target = parseInt(el.dataset.count), suffix = el.dataset.suffix || '', prefix = el.dataset.prefix || '';
+            let cur = 0; const step = target / 40;
+            const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = prefix + Math.round(cur).toLocaleString() + suffix; }, 30);
+        });
+        slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar, i) => {
+            bar.classList.add('fill-init');
+            bar.style.width = '0%'; bar.style.transition = 'width 0.6s ease ' + (i * 0.1) + 's'; bar.offsetHeight; bar.style.width = (bar.dataset.width || '0') + '%';
+        });
+        slide.querySelectorAll('.bar:not(.bar-init)').forEach((bar, i) => {
+            bar.classList.add('bar-init');
+            bar.style.height = '0%'; bar.style.transition = 'height 0.5s ease ' + (i * 0.06) + 's'; bar.offsetHeight; bar.style.height = (bar.dataset.height || '0') + '%';
+        });
+        slide.querySelectorAll('.donut-ring:not(.ring-init)').forEach(ring => {
+            ring.classList.add('ring-init');
+            ring.style.strokeDashoffset = '251.3'; ring.style.transition = 'stroke-dashoffset 0.8s ease'; ring.offsetHeight; ring.style.strokeDashoffset = 251.3 - (parseInt(ring.dataset.percent) / 100) * 251.3;
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const s = document.querySelector('.mouse-spotlight');
+        if (s) s.style.background = 'radial-gradient(600px circle at ' + e.clientX + 'px ' + e.clientY + 'px, rgba(240,201,106,0.05), transparent 40%)';
+    });
+
+    window.initParticles = function(canvas, options) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+        const interactive = options.interactive !== false;
+        const count = options.count || (interactive ? 55 : 18);
+        let mx = -1000, my = -1000;
+        const particles = Array.from({ length: count }, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+            size: Math.random() * 2.5 + 0.8, alpha: Math.random() * 0.35 + 0.1
+        }));
+        if (interactive) { canvas.addEventListener('mousemove', (e) => { const r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }); canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; }); }
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                if (interactive) { const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx*dx+dy*dy); if (dist < 120) { const force = (120-dist)/120*2; p.vx += (dx/dist)*force*0.1; p.vy += (dy/dist)*force*0.1; } }
+                p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(240,201,106,' + p.alpha + ')'; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        })();
+    };
+    document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, { interactive: true, count: 55 }));
+    document.querySelectorAll('.particle-canvas-ambient').forEach(c => window.initParticles(c, { interactive: false, count: 18 }));
+
+    try { animateSlide(document.querySelector('.slide.active')); } catch(e) {}
+</script>
+</body>
+</html>
